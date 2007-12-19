@@ -2,15 +2,15 @@
 
 from nose.tools import raises
 
-from pyflowpro import parmlist
+from pyflowpro.parmlist import Parmlist
 
 
 class TestParmlist(object):
 
     def test_string(self):
-        """`parmlist.string` returns a parmlist-formatted string based
-        on values in a dictionary."""
-        values = dict(
+        """`Parmlist.__str__` returns a parmlist-formatted string
+        based on values in a dictionary."""
+        parms = Parmlist(
             TRXTYPE='S',
             TENDER='C',
             PARTNER='PayPal',
@@ -34,13 +34,12 @@ class TestParmlist(object):
             'VENDOR=SuperMerchant'
             '"'
             )
-        assert expected == parmlist.string(values)
+        assert expected == str(parms)
 
     @raises(ValueError)
     def test_string_disallow_quotes(self):
         """Quotes are never allowed in parmlists."""
-        values = dict(
+        parms = Parmlist(
             KEY='"value"',
             )
-        parmlist.string(values)
-
+        str(parms)
