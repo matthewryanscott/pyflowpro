@@ -14,6 +14,9 @@ class Parmlist(dict):
             kw = _to_dict(args[0])
         self.update(kw)
 
+    def __getitem__(self, key):
+        return super(Parmlist, self).__getitem__(key.lower())
+
     def __setitem__(self, key, value):
         if not isinstance(key, str):
             raise KeyError('Key must be a string.')
@@ -27,7 +30,7 @@ class Parmlist(dict):
             raise ValueError('Value must not contain newline.')
         if '"' in value:
             raise ValueError('Value must not contain double quote.')
-        super(Parmlist, self).__setitem__(key, value)
+        super(Parmlist, self).__setitem__(key.lower(), value)
 
     def __str__(self):
         args = []
@@ -38,6 +41,9 @@ class Parmlist(dict):
             args.append('%s=%s' % (key, value))
         args.sort()
         return '"' + '&'.join(args) + '"'
+
+    def copy(self):
+        return Parmlist(**self)
 
     def update(self, other):
         # Update item-by-item so that __setitem__ rules are enforced.

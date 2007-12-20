@@ -7,6 +7,18 @@ from pyflowpro.parmlist import Parmlist
 
 class TestParmlist(object):
 
+    def test_case_insensitive_keys(self):
+        parms = Parmlist(foo='bar')
+        parms['FOO'] = 'baz'
+        assert parms['foo'] == 'baz'
+
+    def test_copy(self):
+        parms = Parmlist(foo='bar')
+        copy = parms.copy()
+        assert isinstance(parms, Parmlist)
+        assert len(copy) == 1
+        assert copy['FOO'] == 'bar'
+
     def test_fromstring(self):
         parms = Parmlist(
             '"'
