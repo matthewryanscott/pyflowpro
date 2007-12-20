@@ -36,10 +36,42 @@ class TestParmlist(object):
             )
         assert expected == str(parms)
 
+    @raises(KeyError)
+    def test_disallow_key_newlines(self):
+        """Newlines are never allowed in parmlist keys."""
+        parms = Parmlist()
+        parms['key\n'] = 'value'
+
+    @raises(KeyError)
+    def test_disallow_key_nonstring(self):
+        """Non-strings are never allowed in parmlist keys."""
+        parms = Parmlist()
+        parms[u'key'] = 'value'
+
+    @raises(KeyError)
+    def test_disallow_key_quotes(self):
+        """Quotes are never allowed in parmlist keys."""
+        parms = Parmlist()
+        parms['key"'] = 'value'
+
     @raises(ValueError)
-    def test_string_disallow_quotes(self):
-        """Quotes are never allowed in parmlists."""
+    def test_disallow_value_newlines(self):
+        """Newlines are never allowed in parmlist values."""
+        parms = Parmlist(
+            KEY='value\n',
+            )
+
+    @raises(KeyError)
+    def test_disallow_value_nonstring(self):
+        """Non-strings are never allowed in parmlist values."""
+        parms = Parmlist(
+            KEY=u'value',
+            )
+
+    @raises(ValueError)
+    def test_disallow_value_quotes(self):
+        """Quotes are never allowed in parmlist values."""
         parms = Parmlist(
             KEY='"value"',
             )
-        str(parms)
+
