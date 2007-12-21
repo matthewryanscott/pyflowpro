@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.0'
+from pyflowpro import version
 
 setup(
     name='PyFlowPro',
-    version=version,
+    version=version.NUMBER,
     description="Use Payflow Pro directly from Python",
     long_description="""\
     """,

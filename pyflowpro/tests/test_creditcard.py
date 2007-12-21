@@ -19,4 +19,5 @@ class TestCreditcardSale(object):
             zip='12345',
             )
         response = tx.submit()
+        print repr(response)
         assert response['result'] == '0'

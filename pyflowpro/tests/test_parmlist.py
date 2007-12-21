@@ -21,7 +21,6 @@ class TestParmlist(object):
 
     def test_fromstring(self):
         parms = Parmlist(
-            '"'
             'ACCT=5555444433332222&'
             'AMT=123.00&'
             'EXPDATE=0308&'
@@ -31,7 +30,6 @@ class TestParmlist(object):
             'TRXTYPE=S&'
             'USER=SuperMerchant&'
             'VENDOR=SuperMerchant'
-            '"'
             )
         expected = Parmlist(
             TRXTYPE='S',
@@ -44,6 +42,8 @@ class TestParmlist(object):
             EXPDATE='0308',
             AMT='123.00',
             )
+        print parms
+        print expected
         assert parms == expected
 
     def test_tostring(self):
@@ -61,7 +61,6 @@ class TestParmlist(object):
             AMT='123.00',
             )
         expected = (
-            '"'
             'ACCT=5555444433332222&'
             'AMT=123.00&'
             'EXPDATE=0308&'
@@ -71,7 +70,6 @@ class TestParmlist(object):
             'TRXTYPE=S&'
             'USER=SuperMerchant&'
             'VENDOR=SuperMerchant'
-            '"'
             )
         assert expected == str(parms)
 
@@ -113,4 +111,3 @@ class TestParmlist(object):
         parms = Parmlist(
             KEY='"value"',
             )
-

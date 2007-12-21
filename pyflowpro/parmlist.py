@@ -1,3 +1,6 @@
+"""Parmlist, a specialized dictionary for Payflow Pro usage."""
+
+
 class Parmlist(dict):
 
     def __init__(self, *args, **kw):
@@ -40,7 +43,7 @@ class Parmlist(dict):
                 key = '%s[%d]' % (key, len(value))
             args.append('%s=%s' % (key, value))
         args.sort()
-        return '"' + '&'.join(args) + '"'
+        return '&'.join(args)
 
     def copy(self):
         return Parmlist(**self)
@@ -51,7 +54,7 @@ class Parmlist(dict):
             self[key] = value
         
 
-BEGIN, NAME, LEN, VALUE, RESET, END = range(6)
+NAME, LEN, VALUE, RESET = range(4)
 
 
 def _to_dict(s):
@@ -61,19 +64,16 @@ def _to_dict(s):
     # simple state machine.  If anyone takes the time to implement a
     # regex version, please let me know!  -mscott
     result = {}
-    state = BEGIN
+    state = NAME
     cur_name = ''
     cur_len_str = ''
     cur_len = 0
     cur_value = ''
     processed = ''
-    for c in s:
+    end = len(s) - 1
+    for (i, c) in enumerate(s):
         processed += c
-        if state is BEGIN:
-            if c is not '"':
-                raise ValueError('String must begin with a double quote.')
-            state = NAME
-        elif state is NAME:
+        if state is NAME:
             if c.isalpha():
                 cur_name += c
             elif c in '[]':
@@ -103,14 +103,9 @@ def _to_dict(s):
                     continue
             elif c is '&':
                 state = RESET
-            elif c is '"':
-                state = END
             else:
                 cur_value += c
-        elif state is RESET:
-            if c is '"':
-                state = END
-        if state is RESET or state is END:
+        if state is RESET or i == end:
             result[cur_name] = cur_value
             cur_name = ''
             cur_len_str = ''
@@ -118,6 +113,4 @@ def _to_dict(s):
             cur_value = ''
             if state is RESET:
                 state = NAME
-    if state is not END:
-        raise ValueError('Premature end of string.')
     return result
