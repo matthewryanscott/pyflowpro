@@ -38,9 +38,7 @@ class Parmlist(dict):
     def __str__(self):
         args = []
         for key, value in self.items():
-            key = key.upper()
-            if '=' in value or '&' in value:
-                key = '%s[%d]' % (key, len(value))
+            key = '%s[%d]' % (key.upper(), len(value))
             args.append('%s=%s' % (key, value))
         args.sort()
         return '&'.join(args)
@@ -100,6 +98,8 @@ def _to_dict(s):
                 cur_len -= 1
                 if not cur_len:
                     state = RESET
+                    if i == end:
+                        result[cur_name] = cur_value
                     continue
             elif c is '&':
                 state = RESET

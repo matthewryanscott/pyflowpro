@@ -21,22 +21,22 @@ class TestParmlist(object):
 
     def test_fromstring(self):
         parms = Parmlist(
-            'ACCT=5555444433332222&'
-            'AMT=123.00&'
-            'EXPDATE=0308&'
-            'PARTNER=PayPal&'
+            'ACCT[16]=5555444433332222&'
+            'AMT[6]=123.00&'
+            'EXPDATE[4]=0308&'
+            'PARTNER[6]=PayPal&'
             'PWD[6]=x1y&=3&'
-            'TENDER=C&'
-            'TRXTYPE=S&'
-            'USER=SuperMerchant&'
-            'VENDOR=SuperMerchant'
+            'TENDER[1]=C&'
+            'TRXTYPE[1]=S&'
+            'USER[8]=Merchant&'
+            'VENDOR[8]=Merchant'
             )
         expected = Parmlist(
             TRXTYPE='S',
             TENDER='C',
             PARTNER='PayPal',
-            VENDOR='SuperMerchant',
-            USER='SuperMerchant',
+            VENDOR='Merchant',
+            USER='Merchant',
             PWD='x1y&=3',
             ACCT='5555444433332222',
             EXPDATE='0308',
@@ -53,23 +53,23 @@ class TestParmlist(object):
             TRXTYPE='S',
             TENDER='C',
             PARTNER='PayPal',
-            VENDOR='SuperMerchant',
-            USER='SuperMerchant',
+            VENDOR='Merchant',
+            USER='Merchant',
             PWD='x1y&=3',
             ACCT='5555444433332222',
             EXPDATE='0308',
             AMT='123.00',
             )
         expected = (
-            'ACCT=5555444433332222&'
-            'AMT=123.00&'
-            'EXPDATE=0308&'
-            'PARTNER=PayPal&'
+            'ACCT[16]=5555444433332222&'
+            'AMT[6]=123.00&'
+            'EXPDATE[4]=0308&'
+            'PARTNER[6]=PayPal&'
             'PWD[6]=x1y&=3&'
-            'TENDER=C&'
-            'TRXTYPE=S&'
-            'USER=SuperMerchant&'
-            'VENDOR=SuperMerchant'
+            'TENDER[1]=C&'
+            'TRXTYPE[1]=S&'
+            'USER[8]=Merchant&'
+            'VENDOR[8]=Merchant'
             )
         assert expected == str(parms)
 
