@@ -12,6 +12,7 @@ class TestCreditcardSale(object):
             config,
             acct='5105105105105100',
             expdate='0109',
+            cvv2='123',
             invnum='INV12345',
             amt='25.12',
             ponum='PO12345',
@@ -19,5 +20,4 @@ class TestCreditcardSale(object):
             zip='12345',
             )
         response = tx.submit()
-        print repr(response)
         assert response['result'] == '0'

@@ -23,6 +23,7 @@ class TestParmlist(object):
         parms = Parmlist(
             'ACCT[16]=5555444433332222&'
             'AMT[6]=123.00&'
+            'CVV2[3]=123&'
             'EXPDATE[4]=0308&'
             'PARTNER[6]=PayPal&'
             'PWD[6]=x1y&=3&'
@@ -40,10 +41,9 @@ class TestParmlist(object):
             PWD='x1y&=3',
             ACCT='5555444433332222',
             EXPDATE='0308',
+            CVV2='123',
             AMT='123.00',
             )
-        print parms
-        print expected
         assert parms == expected
 
     def test_tostring(self):
@@ -58,11 +58,13 @@ class TestParmlist(object):
             PWD='x1y&=3',
             ACCT='5555444433332222',
             EXPDATE='0308',
+            CVV2='123',
             AMT='123.00',
             )
         expected = (
             'ACCT[16]=5555444433332222&'
             'AMT[6]=123.00&'
+            'CVV2[3]=123&'
             'EXPDATE[4]=0308&'
             'PARTNER[6]=PayPal&'
             'PWD[6]=x1y&=3&'

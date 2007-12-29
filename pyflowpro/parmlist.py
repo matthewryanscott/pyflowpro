@@ -72,23 +72,23 @@ def _to_dict(s):
     for (i, c) in enumerate(s):
         processed += c
         if state is NAME:
-            if c.isalpha():
+            if c.isalnum():
                 cur_name += c
             elif c in '[]':
                 state = LEN
             elif c is '=':
                 state = VALUE
             else:
-                raise ValueError('Error parsing string into values at %r.'
-                                 % processed)
+                raise ValueError('Error parsing string into values at %r in %r.'
+                                 % (processed, s))
         elif state is LEN:
             if c.isdigit():
                 cur_len_str += c
             elif c is ']':
                 state = NAME
             else:
-                raise ValueError('Error parsing string into values at %r.'
-                                 % processed)
+                raise ValueError('Error parsing string into values at %r in %r.'
+                                 % (processed, s))
         elif state is VALUE:
             if cur_len_str:
                 cur_len = int(cur_len_str)

@@ -9,20 +9,23 @@ class Sale(object):
 
     timeout = 45
 
-    def __init__(self, config, acct, expdate, amt, street, zip,
+    def __init__(self, config, acct, expdate, cvv2, amt, street, zip,
                  invnum=None, ponum=None):
         self.config = config
         self.request_id = uuid4()
         self.parms = parms = Parmlist(
+            trxtype = 'S',              # [S]ale
+            tender = 'C',               # [C]redit
             acct = acct,
             expdate = expdate,
+            cvv2 = cvv2,
             amt = amt,
             street = street,
             zip = zip,
             partner = config.partner,
             vendor = config.vendor,
             user = config.user,
-            password = config.password,
+            pwd = config.password,
             )
         if invnum is not None:
             parms['invnum'] = invnum
@@ -30,17 +33,17 @@ class Sale(object):
             parms['ponum'] = ponum
         
     def submit(self):
+        host = self.config.host
+        url = 'https://' + host
         headers = {
-            'Content-Type': 'text/namevalue',
+            'Host': host,
             'X-VPS-REQUEST-ID': self.request_id,
-            'X-VPS-CLIENT-TIMEOUT': str(self.timeout),
-            'X-VPS-VIT-CLIENT-CERTIFICATION-ID': self.config.clientid,
+            'X-VPS-CLIENT-TIMEOUT': str(self.timeout), # Doc says to do this
+            'X-VPS-Timeout': str(self.timeout), # Example says to do this
             }
         headers.update(STANDARD_HEADERS)
-        print repr(self.parms)
-        print str(self.parms)
         request = Request(
-            url = self.config.url,
+            url = url,
             data = str(self.parms),
             headers = headers,
             )
