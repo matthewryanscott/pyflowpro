@@ -1,7 +1,7 @@
 from urllib2 import Request, urlopen
 from uuid import uuid4
 
-from pyflowpro.parmlist import Parmlist
+from pyflowpro.nvp import NvpDict
 from pyflowpro.headers import STANDARD_HEADERS
 
 
@@ -13,7 +13,7 @@ class Sale(object):
                  invnum=None, ponum=None):
         self.config = config
         self.request_id = uuid4()
-        self.parms = parms = Parmlist(
+        self.parms = parms = NvpDict(
             trxtype = 'S',              # [S]ale
             tender = 'C',               # [C]redit
             acct = str(acct),
@@ -50,5 +50,5 @@ class Sale(object):
         response = urlopen(request)
         data = response.read()
         response.close()
-        response_parms = Parmlist(data)
+        response_parms = NvpDict(data)
         return response_parms

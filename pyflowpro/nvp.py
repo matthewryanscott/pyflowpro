@@ -1,10 +1,11 @@
-"""Parmlist, a specialized dictionary for Payflow Pro usage."""
+"""NvpDict, a specialized dictionary for Payflow Pro's Name-Value-Pair
+(NVP) format."""
 
 
-class Parmlist(dict):
+class NvpDict(dict):
 
     def __init__(self, *args, **kw):
-        super(Parmlist, self).__init__()
+        super(NvpDict, self).__init__()
         # >0 positional args with >0 keyword args is ambiguous.
         if len(args) > 0 and len(kw) > 0:
             raise TypeError(
@@ -18,7 +19,7 @@ class Parmlist(dict):
         self.update(kw)
 
     def __getitem__(self, key):
-        return super(Parmlist, self).__getitem__(key.lower())
+        return super(NvpDict, self).__getitem__(key.lower())
 
     def __setitem__(self, key, value):
         if not isinstance(key, str):
@@ -33,7 +34,7 @@ class Parmlist(dict):
             raise ValueError('Value must not contain newline.')
         if '"' in value:
             raise ValueError('Value must not contain double quote.')
-        super(Parmlist, self).__setitem__(key.lower(), value)
+        super(NvpDict, self).__setitem__(key.lower(), value)
 
     def __str__(self):
         args = []
@@ -44,7 +45,7 @@ class Parmlist(dict):
         return '&'.join(args)
 
     def copy(self):
-        return Parmlist(**self)
+        return NvpDict(**self)
 
     def update(self, other):
         # Update item-by-item so that __setitem__ rules are enforced.

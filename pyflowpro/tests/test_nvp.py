@@ -2,25 +2,25 @@
 
 from nose.tools import raises
 
-from pyflowpro.parmlist import Parmlist
+from pyflowpro.nvp import NvpDict
 
 
-class TestParmlist(object):
+class TestNvpDict(object):
 
     def test_case_insensitive_keys(self):
-        parms = Parmlist(foo='bar')
+        parms = NvpDict(foo='bar')
         parms['FOO'] = 'baz'
         assert parms['foo'] == 'baz'
 
     def test_copy(self):
-        parms = Parmlist(foo='bar')
+        parms = NvpDict(foo='bar')
         copy = parms.copy()
-        assert isinstance(parms, Parmlist)
+        assert isinstance(parms, NvpDict)
         assert len(copy) == 1
         assert copy['FOO'] == 'bar'
 
     def test_fromstring(self):
-        parms = Parmlist(
+        parms = NvpDict(
             'ACCT[16]=5555444433332222&'
             'AMT[6]=123.00&'
             'CVV2[3]=123&'
@@ -32,7 +32,7 @@ class TestParmlist(object):
             'USER[8]=Merchant&'
             'VENDOR[8]=Merchant'
             )
-        expected = Parmlist(
+        expected = NvpDict(
             TRXTYPE='S',
             TENDER='C',
             PARTNER='PayPal',
@@ -47,9 +47,9 @@ class TestParmlist(object):
         assert parms == expected
 
     def test_tostring(self):
-        """`Parmlist.__str__` returns a parmlist-formatted string
+        """`NvpDict.__str__` returns a parmlist-formatted string
         based on values in a dictionary."""
-        parms = Parmlist(
+        parms = NvpDict(
             TRXTYPE='S',
             TENDER='C',
             PARTNER='PayPal',
@@ -78,38 +78,38 @@ class TestParmlist(object):
     @raises(KeyError)
     def test_disallow_key_newlines(self):
         """Newlines are never allowed in parmlist keys."""
-        parms = Parmlist()
+        parms = NvpDict()
         parms['key\n'] = 'value'
 
     @raises(KeyError)
     def test_disallow_key_nonstring(self):
         """Non-strings are never allowed in parmlist keys."""
-        parms = Parmlist()
+        parms = NvpDict()
         parms[u'key'] = 'value'
 
     @raises(KeyError)
     def test_disallow_key_quotes(self):
         """Quotes are never allowed in parmlist keys."""
-        parms = Parmlist()
+        parms = NvpDict()
         parms['key"'] = 'value'
 
     @raises(ValueError)
     def test_disallow_value_newlines(self):
         """Newlines are never allowed in parmlist values."""
-        parms = Parmlist(
+        parms = NvpDict(
             KEY='value\n',
             )
 
     @raises(KeyError)
     def test_disallow_value_nonstring(self):
         """Non-strings are never allowed in parmlist values."""
-        parms = Parmlist(
+        parms = NvpDict(
             KEY=u'value',
             )
 
     @raises(ValueError)
     def test_disallow_value_quotes(self):
         """Quotes are never allowed in parmlist values."""
-        parms = Parmlist(
+        parms = NvpDict(
             KEY='"value"',
             )
