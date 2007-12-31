@@ -25,6 +25,8 @@ setup(
     ],
     test_suite='nose.collector',
     entry_points="""
-    # -*- Entry points: -*-
+    [simplsale.commerce]
+    pyflowpro-live = pyflowpro.plugins.simplsale:LiveCommerce
+    pyflowpro-pilot = pyflowpro.plugins.simplsale:PilotCommerce
     """,
     )

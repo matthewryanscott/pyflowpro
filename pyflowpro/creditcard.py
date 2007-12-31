@@ -16,16 +16,16 @@ class Sale(object):
         self.parms = parms = Parmlist(
             trxtype = 'S',              # [S]ale
             tender = 'C',               # [C]redit
-            acct = acct,
-            expdate = expdate,
-            cvv2 = cvv2,
-            amt = amt,
-            street = street,
-            zip = zip,
-            partner = config.partner,
-            vendor = config.vendor,
-            user = config.user,
-            pwd = config.password,
+            acct = str(acct),
+            expdate = str(expdate),
+            cvv2 = str(cvv2),
+            amt = str(amt),
+            street = str(street),
+            zip = str(zip),
+            partner = str(config.partner),
+            vendor = str(config.vendor),
+            user = str(config.user),
+            pwd = str(config.password),
             )
         if invnum is not None:
             parms['invnum'] = invnum
